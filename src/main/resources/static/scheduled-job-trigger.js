@@ -8,22 +8,22 @@ var pageScheduleInitialized = false;
 		var baseUrl = AJS.contextPath();
     	var repo = pullRequestJson.toRef.repository;
         var proj = repo.project;
-        return baseUrl+'/plugins/servlet/jenkins/scheduledtriggers/' + repo.slug;
+        return baseUrl + '/plugins/servlet/jenkins/scheduledtriggers/' + repo.slug;
     }
     
     var storage = { getCheckBoxStatus : function(pullRequestJson) {
-             AJS.$.ajax({
-	          type: "GET",
-	          url: getScheduleJobTriggerServletUrl(pullRequestJson)+'/'+pullRequestJson.id,
-	          success: function(data) {
-					        if (data != null && data.length > 0) {
-					        	AJS.messages.generic("#schedule-job-trigger-message",{
-					        		   title:"Jenkins Job is scheduled to trigger at "+data
-					        		});
-					        };
-	                   }
-	          });
-        }
+	    	AJS.$.ajax({
+	    		type: "GET",
+	    		url: getScheduleJobTriggerServletUrl(pullRequestJson)+'/'+pullRequestJson.id,
+	    		success: function(data) {
+	    				if (data != null && data.length > 0) {
+	    					AJS.messages.generic("#schedule-job-trigger-message", {
+	    						title: "Jenkins Job is scheduled to trigger at " + data
+	    					});
+	    				};
+	    		}
+	    	});
+    	}
     };
 
     // Stash 2.4.x and 2.5.x incorrectly provided a Brace/Backbone model here, but should have provided raw JSON.
@@ -31,10 +31,9 @@ var pageScheduleInitialized = false;
         return pullRequestOrJson.toJSON ? pullRequestOrJson.toJSON() : pullRequestOrJson;
     }
 
-	function getScheduledJobTriggerOnLoad() {
-	   var pr = require('model/page-state').getPullRequest();
-	   storage.getCheckBoxStatus(coerceToJson(pr));
-       
+    function getScheduledJobTriggerOnLoad() {
+    	var pr = require('bitbucket/util/state').getPullRequest();
+    	storage.getCheckBoxStatus(coerceToJson(pr));
     }
 
     JOBTRIGGER.getScheduledJobTriggerOnLoad = getScheduledJobTriggerOnLoad;
@@ -45,13 +44,13 @@ var pageScheduleInitialized = false;
         return pr.state === 'OPEN';
     };
 
-	$(document).ready(function(){
-		if(pageScheduleInitialized) return;
+	$(document).ready(function() {
+		if (pageScheduleInitialized) 
+			return;
 		pageScheduleInitialized = true;
-	    var pr = require('model/page-state').getPullRequest();
+	    var pr = require('bitbucket/util/state').getPullRequest();
 	    if (coerceToJson(pr).state == 'OPEN') {
-	       JOBTRIGGER.getScheduledJobTriggerOnLoad();
+	    	JOBTRIGGER.getScheduledJobTriggerOnLoad();
 	    }
     });
-   
 }(AJS.$));

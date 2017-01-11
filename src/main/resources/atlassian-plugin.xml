@@ -10,36 +10,36 @@
     
  	<component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
     <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
-    <component-import key="repositoryService" interface="com.atlassian.stash.repository.RepositoryService"/>
-    <component-import key="pullRequestService" interface="com.atlassian.stash.pull.PullRequestService"/>
+    <component-import key="repositoryService" interface="com.atlassian.bitbucket.repository.RepositoryService"/>
+    <component-import key="pullRequestService" interface="com.atlassian.bitbucket.pull.PullRequestService"/>
     <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>
     <component-import key="schedulerService" interface="com.atlassian.scheduler.SchedulerService"/>
     <component-import key="webResourceUrlProvider" interface="com.atlassian.plugin.webresource.WebResourceUrlProvider"/>
     <component-import key="loginUriProvider" name="Login URI provider" interface="com.atlassian.sal.api.auth.LoginUriProvider" />
     
-    <component key="JenkinsIntergration" class="com.harms.stash.plugin.jenkins.job.intergration.JenkinsJobTrigger" public="true">
-        <interface>com.harms.stash.plugin.jenkins.job.intergration.JobTrigger</interface>
+    <component key="JenkinsIntergration" class="com.harms.bitbucket.plugin.jenkins.job.intergration.JenkinsJobTrigger" public="true">
+        <interface>com.harms.bitbucket.plugin.jenkins.job.intergration.JobTrigger</interface>
     </component>
-    <component key="stashEventListener" class="com.harms.stash.plugin.jenkins.job.intergration.StashEventListener"/>
+    <component key="bitbucketEventListener" class="com.harms.bitbucket.plugin.jenkins.job.intergration.BitbucketEventListener"/>
 
-	<servlet name="SettingsServlet" key="settingsServlet" class="com.harms.stash.plugin.jenkins.job.settings.servlet.JenkinsIntegrationPluginSettingsServlet">
-        <description key="settingsServlet.description">The Jenkins plug-in Settings Servlet</description>
+	<servlet name="SettingsServlet" key="settingsServlet" class="com.harms.bitbucket.plugin.jenkins.job.settings.servlet.JenkinsIntegrationPluginSettingsServlet">
+        <description key="settingsServlet.description">The Jenkins plug-in settings servlet</description>
         <url-pattern>/jenkins/settings/*</url-pattern>
     </servlet>
     
-    <servlet name="ManualTriggerBuildServlet" key="manualTriggerBuildServlet" class="com.harms.stash.plugin.jenkins.job.settings.servlet.ManualTriggerBuildServlet">
-        <description key="manualTriggerBuildServlet.description">The manual trigger job Servlet</description>
+    <servlet name="ManualTriggerBuildServlet" key="manualTriggerBuildServlet" class="com.harms.bitbucket.plugin.jenkins.job.settings.servlet.ManualTriggerBuildServlet">
+        <description key="manualTriggerBuildServlet.description">The manual trigger job servlet</description>
         <url-pattern>/jenkins/manualtrigger/*</url-pattern>
     </servlet>
     
-    <servlet name="ScheduledJobTriggerInfoServlet" key="scheduledJobTriggerInfoServlet" class="com.harms.stash.plugin.jenkins.job.settings.servlet.ScheduledJobTriggerInfoServlet">
-        <description key="scheduledJobTriggerInfoServlet.description">Retrieve registered schedule job trigger for a pull-request</description>
+    <servlet name="ScheduledJobTriggerInfoServlet" key="scheduledJobTriggerInfoServlet" class="com.harms.bitbucket.plugin.jenkins.job.settings.servlet.ScheduledJobTriggerInfoServlet">
+        <description key="scheduledJobTriggerInfoServlet.description">Retrieve registered schedule job trigger for a pull request</description>
         <url-pattern>/jenkins/scheduledtriggers/*</url-pattern>
     </servlet>
 
-	<stash-resource key="setting-soy" name="Jenkins Pull Request Integration Templates">
+	<client-resource key="setting-soy" name="Jenkins Pull Request Integration Templates">
         <directory location="/static/"/>
-    </stash-resource>
+    </client-resource>
     
     <web-resource key="pr-overview-resources">
         <transformation extension="soy">
@@ -54,29 +54,29 @@
         <resource type="download" name="pull-request-overview.js" location="/static/pull-request-overview.js"/>
         <resource type="download" name="pull-request-overview.css" location="/static/pull-request-overview.less" />
         <dependency>com.atlassian.auiplugin:ajs</dependency>
-        <dependency>com.atlassian.stash.stash-web-api:pull-request-web-panels</dependency>
+        <dependency>com.atlassian.bitbucket.server.bitbucket-web-api:pull-request-web-panels</dependency>
     </web-resource>
 
-    <client-web-panel key="disable-automatic-build" location="stash.pull-request.links">
-        <resource name="view" type="soy" location="com.harms.stash.jenkins-integration-plugin:pr-overview-resources/stash.config.jenkins.job.integration.disableAutomaticBuildForm" />
+    <client-web-panel key="disable-automatic-build" location="bitbucket.pull-request.links">
+        <resource name="view" type="soy" location="com.harms.bitbucket.jenkins-integration-plugin:pr-overview-resources/bitbucket.config.jenkins.job.integration.disableAutomaticBuildForm" />
 		<resource type="download" name="pull-request-overview.js" location="/static/pull-request-overview.js"/>
         <client-condition>PULLREQUEST._pullRequestIsOpen</client-condition>
     </client-web-panel>
     
-    <web-panel key="schedule-job-trigger-message" location="stash.notification.banner.header">
+    <web-panel key="schedule-job-trigger-message" location="bitbucket.notification.banner.header">
         <resource name="view" type="static"><![CDATA[<div id="schedule-job-trigger-message"></div><div id="disable-automatic-build-message"></div>]]></resource>
     </web-panel>
 
-    <client-web-panel key="scheduled-job-trigger" location="stash.pull-request.links">
+    <client-web-panel key="scheduled-job-trigger" location="bitbucket.pull-request.links">
         <resource type="download" name="scheduled-job-trigger.js" location="/static/scheduled-job-trigger.js"/>
         <client-condition>JOBTRIGGER._pullRequestIsOpen</client-condition>
     </client-web-panel>
     
     <web-item key="jenkins-settings-plugin-tab" name="Jenkins settings navigation tab"
-              section="stash.repository.settings.panel/repository-settings-section" weight="50">
-        <label>Jenkins Pull Request integration</label>
+              section="bitbucket.repository.settings.panel/repository-settings-section" weight="50">
+        <label>Jenkins pull request integration</label>
         <link>/plugins/servlet/jenkins/settings/${repository.project.key}/${repository.slug}/</link>
-        <tooltip>Automatic trigger a Jenkins job when a pull request is created or updated</tooltip>
+        <tooltip>Automatically trigger a Jenkins job when a pull request is created or updated</tooltip>
     </web-item>
     <component-import key="pluginLicenseManager" interface="com.atlassian.upm.api.license.PluginLicenseManager"/>
 </atlassian-plugin>

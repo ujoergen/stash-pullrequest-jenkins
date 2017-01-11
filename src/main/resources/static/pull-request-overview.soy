@@ -1,18 +1,18 @@
-{namespace stash.config.jenkins.job.integration}
+{namespace bitbucket.config.jenkins.job.integration}
 
 /**
  *
  */
 {template .disableAutomaticBuildForm}
-	<div class="plugin-item">
-	    <form class="aui" id="disable-build">
-	    	<div class="plugin-item">
-	        <input class="disablecheckbox" type="checkbox" id="disablecheckbox_id" name="disableAutomaticBuild" checked>
-	    	<label>Disable automatic build</label>
-	    	</div>
-	    	<div class="plugin-item">
+<div class="plugin-item">
+	<form class="aui" id="disable-build">
+		<div class="trigger-build-item">
+			<input class="disablecheckbox" type="checkbox" id="disablecheckbox_id" name="disableAutomaticBuild" checked>
+			<label>Disable automatic build</label>
+    	</div>
+		<div class="trigger-build-item">
 	    	<button class="aui-button" id="triggerbuild_id">Build</button>
-	    	</div>
-	    </form>
-    </div>
+    	</div>
+    </form>
+</div>
 {/template}

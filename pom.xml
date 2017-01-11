@@ -3,9 +3,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.harms.stash</groupId>
+	<groupId>com.harms.bitbucket</groupId>
 	<artifactId>jenkins-integration-plugin</artifactId>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>1.0.31-SNAPSHOT</version>
 	<packaging>atlassian-plugin</packaging>
 	<repositories>
 		<repository>
@@ -23,21 +23,21 @@
 		</repository>
 	</repositories>
 	<scm>
-		<connection>scm:https://fharms@bitbucket.org/fharms/stash-pullrequest-jenkins.git</connection>
-		<developerConnection>scm:https://fharms@bitbucket.org/fharms/stash-pullrequest-jenkins.git</developerConnection>
-		<url>https://bitbucket.org/fharms/stash-pullrequest-jenkins/overview</url>
+		<connection>scm:https://fharms@bitbucket.org/fharms/bitbucket-pullrequest-jenkins.git</connection>
+		<developerConnection>scm:https://fharms@bitbucket.org/fharms/bitbucket-pullrequest-jenkins.git</developerConnection>
+		<url>https://bitbucket.org/fharms/bitbucket-pullrequest-jenkins/overview</url>
 	</scm>
 	<organization>
 		<name>Flemming Harms</name>
 	</organization>
 	<name>Jenkins Pull-Request Integration</name>
-	<description>Automatic trigger a Jenkins job when a pull request is created or updated. Install this plug-in by install it under Stash-&gt;Settings-&gt;Managed Add-ons and Navigate to your repository and hit the Settings tab.</description>
+	<description>Automatic trigger a Jenkins job when a pull request is created or updated. Install this plug-in by install it under bitbucket-&gt;Settings-&gt;Managed Add-ons and Navigate to your repository and hit the Settings tab.</description>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.atlassian.stash</groupId>
-				<artifactId>stash-parent</artifactId>
-				<version>${stash.version}</version>
+				<groupId>com.atlassian.bitbucket.server</groupId>
+				<artifactId>bitbucket-parent</artifactId>
+				<version>${bitbucket.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -45,13 +45,13 @@
 	</dependencyManagement>
 	<dependencies>
 		<dependency>
-			<groupId>com.atlassian.stash</groupId>
-			<artifactId>stash-api</artifactId>
+			<groupId>com.atlassian.bitbucket.server</groupId>
+			<artifactId>bitbucket-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.atlassian.stash</groupId>
-			<artifactId>stash-spi</artifactId>
+			<groupId>com.atlassian.bitbucket.server</groupId>
+			<artifactId>bitbucket-spi</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -77,6 +77,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -123,16 +124,16 @@
 		<plugins>
 			<plugin>
 				<groupId>com.atlassian.maven.plugins</groupId>
-				<artifactId>maven-stash-plugin</artifactId>
+				<artifactId>bitbucket-maven-plugin</artifactId>
 				<version>${amps.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<products>
 						<product>
-							<id>stash</id>
-							<instanceId>stash</instanceId>
-							<version>${stash.version}</version>
-							<dataVersion>${stash.data.version}</dataVersion>
+							<id>bitbucket</id>
+							<instanceId>bitbucket</instanceId>
+							<version>${bitbucket.version}</version>
+							<dataVersion>${bitbucket.data.version}</dataVersion>
 						</product>
 					</products>
 				</configuration>
@@ -194,9 +195,9 @@
 		</pluginManagement>
 	</build>
 	<properties>
-		<stash.version>3.5.0</stash.version>
-		<stash.data.version>3.5.0</stash.data.version>
-		<amps.version>5.0.13</amps.version>
+		<bitbucket.version>4.12.0</bitbucket.version>
+		<bitbucket.data.version>4.12.0</bitbucket.data.version>
+		<amps.version>6.2.8</amps.version>
 		<plugin.testrunner.version>1.2.3</plugin.testrunner.version>
 	</properties>
 </project>
