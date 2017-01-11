@@ -87,7 +87,8 @@ public class JenkinsJobScheduler implements JobRunner {
         jobDataMap.put("repository_id", pr.getFromRef().getRepository().getId());
         jobDataMap.put("slug", pr.getFromRef().getRepository().getSlug());
         jobDataMap.put("TriggerRequestEvent", event);
-        jobDataMap.put("User", authenticationContext.getCurrentUser().getName());
+        ApplicationUser currentUser = authenticationContext.getCurrentUser();
+		jobDataMap.put("User", currentUser.getName());
         return jobDataMap;
     }
 

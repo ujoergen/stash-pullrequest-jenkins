@@ -27,7 +27,7 @@ var pageInitialized = false;
     		AJS.$.ajax({
     			type: "GET",
     			dataType: "json",
-    			url: getSettingsServletUrl(pullRequestJson)+'/'+pullRequestJson.id,
+    			url: getSettingsServletUrl(pullRequestJson) + '/' + pullRequestJson.id,
     			success: function(data) {
     					if (data.redirect) {
     						window.location.href = data.redirect; 
@@ -55,7 +55,7 @@ var pageInitialized = false;
         			type: "POST",
         			url: getSettingsServletUrl(pullRequestJson) + '/' + pullRequestJson.id,
         			data: {disableBuildParameter : disableBuild},
-        			success: function(data){
+        			success: function(data) {
         					if (data.redirect) {
         						window.location.href = data.redirect; 
         					} else {
